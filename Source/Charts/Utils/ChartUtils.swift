@@ -12,13 +12,28 @@
 import Foundation
 import CoreGraphics
 
-extension Comparable {
-    func clamped(to range: ClosedRange<Self>) -> Self {
-        if self > range.upperBound {
+#if canImport(UIKit)
+    import UIKit
+#endif
+
+#if canImport(Cocoa)
+import Cocoa
+#endif
+
+extension Comparable
+{
+    func clamped(to range: ClosedRange<Self>) -> Self
+    {
+        if self > range.upperBound
+        {
             return range.upperBound
-        } else if self < range.lowerBound {
+        }
+        else if self < range.lowerBound
+        {
             return range.lowerBound
-        } else {
+        }
+        else
+        {
             return self
         }
     }
@@ -36,8 +51,8 @@ extension FloatingPoint
         return self * 180 / .pi
     }
 
-    /// - returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
-    /// NOTE: Value must be in degrees
+    /// - Note: Value must be in degrees
+    /// - Returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
     var normalizedAngle: Self
     {
         let angle = truncatingRemainder(dividingBy: 360)
@@ -156,7 +171,7 @@ open class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    open class func drawText(context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [NSAttributedStringKey : Any]?)
+    open class func drawText(context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [NSAttributedString.Key : Any]?)
     {
         var point = point
         
@@ -176,7 +191,7 @@ open class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    open class func drawText(context: CGContext, text: String, point: CGPoint, attributes: [NSAttributedStringKey : Any]?, anchor: CGPoint, angleRadians: CGFloat)
+    open class func drawText(context: CGContext, text: String, point: CGPoint, attributes: [NSAttributedString.Key : Any]?, anchor: CGPoint, angleRadians: CGFloat)
     {
         var drawOffset = CGPoint()
         
@@ -228,7 +243,7 @@ open class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    internal class func drawMultilineText(context: CGContext, text: String, knownTextSize: CGSize, point: CGPoint, attributes: [NSAttributedStringKey : Any]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
+    internal class func drawMultilineText(context: CGContext, text: String, knownTextSize: CGSize, point: CGPoint, attributes: [NSAttributedString.Key : Any]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
         var rect = CGRect(origin: CGPoint(), size: knownTextSize)
         
@@ -276,7 +291,7 @@ open class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    internal class func drawMultilineText(context: CGContext, text: String, point: CGPoint, attributes: [NSAttributedStringKey : Any]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
+    internal class func drawMultilineText(context: CGContext, text: String, point: CGPoint, attributes: [NSAttributedString.Key : Any]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
         let rect = text.boundingRect(with: constrainedToSize, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
@@ -288,7 +303,7 @@ open class ChartUtils
         return formatter
     }
     
-    /// - returns: The default value formatter used for all chart components that needs a default
+    /// - Returns: The default value formatter used for all chart components that needs a default
     open class func defaultValueFormatter() -> IValueFormatter
     {
         return _defaultValueFormatter
